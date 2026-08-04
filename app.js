@@ -17,21 +17,22 @@ const ExpressError = require("./utils/ExpressError");
 const listingRouter = require("./routes/listings");
 const reviewRouter = require("./routes/reviews");
 const userRouter = require("./routes/users");
-const bookingRouter = require("./routes/bookings"); // ✅ NEW
+const bookingRouter = require("./routes/bookings");
 
 const User = require("./models/user");
 const Listing = require("./models/listing");
 
 const app = express();
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
-
 // =====================
 // MongoDB Connection
 // =====================
+
+const dbUrl = process.env.ATLASDB_URL;
+
 async function main() {
-    await mongoose.connect(MONGO_URL);
-    console.log("MongoDB Connected");
+    await mongoose.connect(dbUrl);
+    console.log("✅ MongoDB Connected");
 }
 
 main().catch((err) => console.log(err));
@@ -39,6 +40,7 @@ main().catch((err) => console.log(err));
 // =====================
 // View Engine
 // =====================
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.engine("ejs", ejsMate);
@@ -46,6 +48,7 @@ app.engine("ejs", ejsMate);
 // =====================
 // Middleware
 // =====================
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride("_method"));
@@ -54,8 +57,9 @@ app.use(express.static(path.join(__dirname, "public")));
 // =====================
 // Session
 // =====================
+
 const sessionOptions = {
-    secret: "mysupersecretcode",
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -71,6 +75,7 @@ app.use(flash());
 // =====================
 // Passport
 // =====================
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -81,6 +86,7 @@ passport.deserializeUser(User.deserializeUser());
 // =====================
 // Global Variables
 // =====================
+
 app.use((req, res, next) => {
     res.locals.currUser = req.user;
     res.locals.success = req.flash("success");
@@ -92,6 +98,7 @@ app.use((req, res, next) => {
 // =====================
 // Home Route
 // =====================
+
 app.get("/", (req, res) => {
     res.redirect("/listings");
 });
@@ -99,14 +106,16 @@ app.get("/", (req, res) => {
 // =====================
 // Routes
 // =====================
+
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
-app.use("/bookings", bookingRouter); // ✅ NEW
+app.use("/bookings", bookingRouter);
 app.use("/", userRouter);
 
 // =====================
-// Temporary Debug Route
+// Debug Route
 // =====================
+
 app.get("/check", async (req, res) => {
     const listings = await Listing.find({});
     res.json(listings);
@@ -115,6 +124,7 @@ app.get("/check", async (req, res) => {
 // =====================
 // 404 Handler
 // =====================
+
 app.all("*", (req, res, next) => {
     next(new ExpressError(404, "Page Not Found"));
 });
@@ -122,6 +132,7 @@ app.all("*", (req, res, next) => {
 // =====================
 // Error Handler
 // =====================
+
 app.use((err, req, res, next) => {
     const { statusCode = 500, message = "Something Went Wrong!" } = err;
     console.error(err);
@@ -131,6 +142,9 @@ app.use((err, req, res, next) => {
 // =====================
 // Server
 // =====================
-app.listen(8080, () => {
-    console.log("Server is listening on port 8080");
+
+const PORT = process.env.PORT || 8080;
+
+app.listen(PORT, () => {
+    console.log(`🚀 Server is listening on port ${PORT}`);
 });
