@@ -1,14 +1,14 @@
-<nav class="navbar navbar-expand-lg bg-white border-bottom shadow-sm">
+<nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top">
     <div class="container">
 
         <!-- Logo -->
-        <a class="navbar-brand text-danger fw-bold fs-3" href="/listings">
+        <a class="navbar-brand fw-bold text-danger fs-2" href="/listings">
             <i class="bi bi-compass-fill"></i> WanderLust
         </a>
 
-        <!-- Mobile Button -->
+        <!-- Mobile Toggle -->
         <button
-            class="navbar-toggler"
+            class="navbar-toggler border-0"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarNav">
@@ -19,8 +19,8 @@
 
         <div class="collapse navbar-collapse" id="navbarNav">
 
-            <!-- Left Menu -->
-            <ul class="navbar-nav me-auto">
+            <!-- Left -->
+            <ul class="navbar-nav ms-4">
 
                 <li class="nav-item">
                     <a class="nav-link fw-semibold" href="/listings">
@@ -32,68 +32,105 @@
 
             <!-- Search -->
             <form
-                class="d-flex mx-auto"
                 action="/listings"
-                method="GET">
+                method="GET"
+                class="d-flex mx-auto my-3 my-lg-0">
 
-                <input
-                    class="form-control me-2 rounded-pill"
-                    type="search"
-                    name="search"
-                    placeholder="Search destinations..."
-                    value="<%= typeof search !== 'undefined' ? search : '' %>">
+                <div class="input-group">
 
-                <button
-                    class="btn btn-danger rounded-pill px-4"
-                    type="submit">
+                    <input
+                        type="search"
+                        name="search"
+                        class="form-control rounded-start-pill border-end-0"
+                        placeholder="Search destinations..."
+                        value="<%= typeof search !== 'undefined' ? search : '' %>">
 
-                    <i class="bi bi-search"></i>
+                    <button
+                        class="btn btn-danger rounded-end-pill px-4">
 
-                </button>
+                        <i class="bi bi-search"></i>
+
+                    </button>
+
+                </div>
 
             </form>
 
-            <!-- Right Menu -->
-            <ul class="navbar-nav ms-auto align-items-center">
+            <!-- Right -->
+            <ul class="navbar-nav align-items-center">
 
                 <% if(!currUser){ %>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/signup">
+                    <li class="nav-item me-2">
+                        <a class="nav-link fw-semibold" href="/signup">
                             Sign Up
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="/login">
+                        <a class="btn btn-outline-danger rounded-pill px-4"
+                           href="/login">
                             Login
                         </a>
                     </li>
 
                 <% } else { %>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/listings/new">
-                            ➕ Add Listing
+                    <li class="nav-item me-2">
+                        <a class="btn btn-danger rounded-pill"
+                           href="/listings/new">
+
+                            <i class="bi bi-plus-circle"></i>
+                            Add Listing
+
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="/bookings">
-                            📅 My Bookings
+                            <i class="bi bi-calendar-check"></i>
+                            My Bookings
                         </a>
                     </li>
 
-                    <li class="nav-item">
-                        <span class="nav-link text-secondary">
-                            Hi, <strong><%= currUser.username %></strong>
-                        </span>
-                    </li>
+                    <li class="nav-item dropdown">
 
-                    <li class="nav-item">
-                        <a class="nav-link text-danger" href="/logout">
-                            Logout
+                        <a
+                            class="nav-link dropdown-toggle"
+                            href="#"
+                            role="button"
+                            data-bs-toggle="dropdown">
+
+                            <i class="bi bi-person-circle fs-4"></i>
+                            <strong><%= currUser.username %></strong>
+
                         </a>
+
+                        <ul class="dropdown-menu dropdown-menu-end">
+
+                            <li>
+                                <a class="dropdown-item" href="/dashboard">
+                                    Dashboard
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="/bookings">
+                                    My Bookings
+                                </a>
+                            </li>
+
+                            <li><hr class="dropdown-divider"></li>
+
+                            <li>
+                                <a class="dropdown-item text-danger"
+                                   href="/logout">
+                                    Logout
+                                </a>
+                            </li>
+
+                        </ul>
+
                     </li>
 
                 <% } %>

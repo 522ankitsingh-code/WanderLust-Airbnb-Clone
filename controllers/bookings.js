@@ -5,6 +5,7 @@ const Listing = require("../models/listing");
 // CREATE BOOKING
 // ==========================
 module.exports.createBooking = async (req, res) => {
+
     const { id } = req.params;
 
     const listing = await Listing.findById(id);
@@ -19,15 +20,17 @@ module.exports.createBooking = async (req, res) => {
     const checkInDate = new Date(checkIn);
     const checkOutDate = new Date(checkOut);
 
-    // Number of nights
-    const totalNights = Math.ceil(
-        (checkOutDate - checkInDate) / (1000 * 60 * 60 * 24)
-    );
-
-    if (totalNights <= 0) {
+    // Validate dates
+    if (checkOutDate <= checkInDate) {
         req.flash("error", "Check-out date must be after check-in date.");
         return res.redirect(`/listings/${id}`);
     }
+
+    // Calculate nights
+    const millisecondsPerDay = 1000 * 60 * 60 * 24;
+    const totalNights = Math.ceil(
+        (checkOutDate - checkInDate) / millisecondsPerDay
+    );
 
     const totalPrice = totalNights * listing.price;
 
@@ -36,7 +39,7 @@ module.exports.createBooking = async (req, res) => {
         user: req.user._id,
         checkIn: checkInDate,
         checkOut: checkOutDate,
-        guests,
+        guests: Number(guests),
         totalPrice,
     });
 
@@ -57,7 +60,9 @@ module.exports.myBookings = async (req, res) => {
 
     const bookings = await Booking.find({
         user: req.user._id,
-    }).populate("listing");
+    })
+        .populate("listing")
+        .sort({ createdAt: -1 });
 
     res.render("bookings/index.ejs", { bookings });
 };
