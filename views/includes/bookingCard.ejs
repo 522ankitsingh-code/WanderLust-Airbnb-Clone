@@ -1,0 +1,92 @@
+<div class="card shadow-lg border-0 sticky-top" style="top:100px;">
+
+    <div class="card-body">
+
+        <h4 class="mb-3">
+            ₹ <%= listing.price.toLocaleString("en-IN") %>
+            <small class="text-muted fs-6">/ night</small>
+        </h4>
+
+        <% if(currUser){ %>
+
+        <form
+            action="/bookings/<%= listing._id %>"
+            method="POST"
+        >
+
+            <div class="mb-3">
+                <label class="form-label">
+                    Check-in
+                </label>
+
+                <input
+                    type="date"
+                    name="checkIn"
+                    id="checkIn"
+                    class="form-control"
+                    required
+                >
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">
+                    Check-out
+                </label>
+
+                <input
+                    type="date"
+                    name="checkOut"
+                    id="checkOut"
+                    class="form-control"
+                    required
+                >
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">
+                    Guests
+                </label>
+
+                <input
+                    type="number"
+                    name="guests"
+                    class="form-control"
+                    value="1"
+                    min="1"
+                    max="10"
+                    required
+                >
+            </div>
+
+            <h5 class="mb-3">
+
+                Total :
+
+                ₹ <span id="totalPrice">
+                    <%= listing.price.toLocaleString("en-IN") %>
+                </span>
+
+            </h5>
+
+            <button
+                class="btn btn-danger w-100"
+            >
+                Reserve
+            </button>
+
+        </form>
+
+        <% } else { %>
+
+            <a
+                href="/login"
+                class="btn btn-danger w-100"
+            >
+                Login to Book
+            </a>
+
+        <% } %>
+
+    </div>
+
+</div>

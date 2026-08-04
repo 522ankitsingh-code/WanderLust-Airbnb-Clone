@@ -1,0 +1,153 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container mt-4 mb-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <h2 class="mb-4 text-center">
+                Create a New Listing
+            </h2>
+
+            <form
+                action="/listings"
+                method="POST"
+                enctype="multipart/form-data"
+            >
+
+                <!-- Title -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">
+                        Title
+                    </label>
+
+                    <input
+                        type="text"
+                        name="listing[title]"
+                        class="form-control"
+                        placeholder="Enter listing title"
+                        required
+                    >
+                </div>
+
+                <!-- Description -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">
+                        Description
+                    </label>
+
+                    <textarea
+                        name="listing[description]"
+                        class="form-control"
+                        rows="4"
+                        placeholder="Describe your property..."
+                    ></textarea>
+                </div>
+
+                <!-- Image -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">
+                        Upload Image
+                    </label>
+
+                    <input
+                        type="file"
+                        name="listing[image]"
+                        class="form-control"
+                        accept="image/*"
+                        required
+                    >
+                </div>
+
+                <!-- Price -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">
+                        Price (₹)
+                    </label>
+
+                    <input
+                        type="number"
+                        name="listing[price]"
+                        class="form-control"
+                        placeholder="Enter price"
+                        min="0"
+                        required
+                    >
+                </div>
+
+                <!-- Location -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">
+                        Location
+                    </label>
+
+                    <input
+                        type="text"
+                        name="listing[location]"
+                        class="form-control"
+                        placeholder="Enter city"
+                        required
+                    >
+                </div>
+
+                <!-- Country -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">
+                        Country
+                    </label>
+
+                    <input
+                        type="text"
+                        name="listing[country]"
+                        class="form-control"
+                        placeholder="Enter country"
+                        required
+                    >
+                </div>
+
+                <!-- Category -->
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">
+                        Category
+                    </label>
+
+                    <select
+                        name="listing[category]"
+                        class="form-select"
+                        required
+                    >
+                        <option value="">Select Category</option>
+                        <option value="Trending">🔥 Trending</option>
+                        <option value="Rooms">🏠 Rooms</option>
+                        <option value="Iconic Cities">🏙️ Iconic Cities</option>
+                        <option value="Mountains">⛰️ Mountains</option>
+                        <option value="Castles">🏰 Castles</option>
+                        <option value="Amazing Pools">🏊 Amazing Pools</option>
+                        <option value="Camping">🏕️ Camping</option>
+                        <option value="Farms">🚜 Farms</option>
+                        <option value="Arctic">❄️ Arctic</option>
+                        <option value="Domes">🛖 Domes</option>
+                        <option value="Boats">⛵ Boats</option>
+                    </select>
+                </div>
+
+                <!-- Submit -->
+                <div class="text-center">
+
+                    <button
+                        type="submit"
+                        class="btn btn-dark btn-lg px-5"
+                    >
+                        Create Listing
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

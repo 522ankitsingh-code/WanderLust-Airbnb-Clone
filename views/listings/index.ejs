@@ -1,0 +1,191 @@
+<% layout("/layouts/boilerplate") %>
+
+<!-- =========================
+        CATEGORY FILTERS
+========================= -->
+
+<div class="filters-container mb-4">
+
+    <a href="/listings" class="filter-item text-decoration-none text-dark">
+        <div>🔥</div>
+        <span>Trending</span>
+    </a>
+
+    <a href="/listings?category=Rooms" class="filter-item text-decoration-none text-dark">
+        <div>🏠</div>
+        <span>Rooms</span>
+    </a>
+
+    <a href="/listings?category=Iconic Cities" class="filter-item text-decoration-none text-dark">
+        <div>🏙️</div>
+        <span>Cities</span>
+    </a>
+
+    <a href="/listings?category=Mountains" class="filter-item text-decoration-none text-dark">
+        <div>⛰️</div>
+        <span>Mountains</span>
+    </a>
+
+    <a href="/listings?category=Castles" class="filter-item text-decoration-none text-dark">
+        <div>🏰</div>
+        <span>Castles</span>
+    </a>
+
+    <a href="/listings?category=Amazing Pools" class="filter-item text-decoration-none text-dark">
+        <div>🏊</div>
+        <span>Pools</span>
+    </a>
+
+    <a href="/listings?category=Camping" class="filter-item text-decoration-none text-dark">
+        <div>🏕️</div>
+        <span>Camping</span>
+    </a>
+
+    <a href="/listings?category=Farms" class="filter-item text-decoration-none text-dark">
+        <div>🚜</div>
+        <span>Farms</span>
+    </a>
+
+    <a href="/listings?category=Arctic" class="filter-item text-decoration-none text-dark">
+        <div>❄️</div>
+        <span>Arctic</span>
+    </a>
+
+    <a href="/listings?category=Domes" class="filter-item text-decoration-none text-dark">
+        <div>🛖</div>
+        <span>Domes</span>
+    </a>
+
+    <a href="/listings?category=Boats" class="filter-item text-decoration-none text-dark">
+        <div>⛵</div>
+        <span>Boats</span>
+    </a>
+
+</div>
+
+<!-- =========================
+        PAGE TITLE
+========================= -->
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h2 class="fw-bold">
+
+        Explore Stays
+
+    </h2>
+
+    <span class="text-muted">
+
+        <%= allListings.length %> stays
+
+    </span>
+
+</div>
+
+<!-- =========================
+        LISTINGS
+========================= -->
+
+<div class="row g-4">
+
+<% if(allListings.length===0){ %>
+
+<div class="col-12 text-center py-5">
+
+<h3>
+
+No Listings Found 😔
+
+</h3>
+
+<p class="text-muted">
+
+Try another search or category.
+
+</p>
+
+</div>
+
+<% } %>
+
+<% allListings.forEach(listing=>{ %>
+
+<div class="col-xl-3 col-lg-4 col-md-6">
+
+<a
+href="/listings/<%= listing._id %>"
+class="listing-link">
+
+<div class="card listing-card h-100">
+
+<div class="position-relative">
+
+<img
+src="<%= listing.image.url %>"
+class="listing-img"
+alt="<%= listing.title %>"
+>
+
+<span
+class="badge bg-danger position-absolute top-0 end-0 m-3">
+
+<%= listing.category %>
+
+</span>
+
+</div>
+
+<div class="card-body">
+
+<div
+class="d-flex justify-content-between align-items-center">
+
+<h5
+class="card-title mb-0">
+
+<%= listing.title %>
+
+</h5>
+
+<span>
+
+⭐ 4.8
+
+</span>
+
+</div>
+
+<p class="text-muted mt-2 mb-2">
+
+📍
+
+<%= listing.location %>,
+
+<%= listing.country %>
+
+</p>
+
+<h5 class="text-danger">
+
+₹ <%= listing.price.toLocaleString("en-IN") %>
+
+<small class="text-muted">
+
+/ night
+
+</small>
+
+</h5>
+
+</div>
+
+</div>
+
+</a>
+
+</div>
+
+<% }) %>
+
+</div>

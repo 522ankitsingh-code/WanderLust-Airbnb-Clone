@@ -1,0 +1,171 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container mt-5">
+
+    <h2 class="mb-4">
+        📊 Host Dashboard
+    </h2>
+
+    <!-- Statistics -->
+    <div class="row mb-5">
+
+        <div class="col-md-4">
+
+            <div class="card shadow border-0 text-center">
+
+                <div class="card-body">
+
+                    <h5>Total Listings</h5>
+
+                    <h2 class="text-primary">
+
+                        <%= listings.length %>
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card shadow border-0 text-center">
+
+                <div class="card-body">
+
+                    <h5>Total Bookings</h5>
+
+                    <h2 class="text-success">
+
+                        <%= bookings.length %>
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card shadow border-0 text-center">
+
+                <div class="card-body">
+
+                    <h5>Total Earnings</h5>
+
+                    <h2 class="text-danger">
+
+                        ₹ <%= totalEarnings.toLocaleString("en-IN") %>
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <h3 class="mb-4">
+        Recent Bookings
+    </h3>
+
+    <% if(bookings.length === 0){ %>
+
+        <div class="alert alert-info">
+
+            No bookings yet.
+
+        </div>
+
+    <% } %>
+
+    <div class="row">
+
+        <% bookings.forEach(booking => { %>
+
+        <div class="col-lg-6 mb-4">
+
+            <div class="card shadow-sm border-0">
+
+                <% if(booking.listing.image){ %>
+
+                <img
+                    src="<%= booking.listing.image.url %>"
+                    class="card-img-top"
+                    style="height:250px; object-fit:cover;"
+                >
+
+                <% } %>
+
+                <div class="card-body">
+
+                    <h4>
+
+                        <%= booking.listing.title %>
+
+                    </h4>
+
+                    <p>
+
+                        👤 Guest :
+                        <strong>
+
+                            <%= booking.user.username %>
+
+                        </strong>
+
+                    </p>
+
+                    <p>
+
+                        📅
+
+                        <%= booking.checkIn.toDateString() %>
+
+                        →
+
+                        <%= booking.checkOut.toDateString() %>
+
+                    </p>
+
+                    <p>
+
+                        👥 Guests :
+
+                        <%= booking.guests %>
+
+                    </p>
+
+                    <p>
+
+                        💰 Amount :
+
+                        ₹ <%= booking.totalPrice.toLocaleString("en-IN") %>
+
+                    </p>
+
+                    <span
+                        class="badge bg-success"
+                    >
+
+                        <%= booking.status %>
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <% }) %>
+
+    </div>
+
+</div>
